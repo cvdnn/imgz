@@ -54,7 +54,7 @@ def find_effective_points(coords=[], step=10):
     return coord_list
 
 
-def split_image(image, coord_y, coord_x, roi, paddle=(0, 1, 1, 1), do_post=None):
+def split_image(image, coord_y, coord_x, roi=None, paddle=(0, 1, 1, 1), do_post=None):
     """
     循环y坐标，x坐标分割表格
     """
