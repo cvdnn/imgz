@@ -67,7 +67,7 @@ def split_image(image, coord_y, coord_x, roi, paddle=(0, 1, 1, 1), do_post=None)
                           ]
 
             if do_post:
-                do_post(image_patch, image_patch[roi[TOP]:roi[BOTTOM], roi[LEFT]:roi[RIGHT]])
+                do_post(image_patch, image_patch[roi[TOP]:roi[BOTTOM], roi[LEFT]:roi[RIGHT]] if roi else None)
 
             j += 1
         i += 1
