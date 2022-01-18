@@ -112,7 +112,7 @@ def eval_mse_loss(pred, target):
 
     # -1 ~ 1
     img_flaws = (chn_gt - chn_mask) / 255
-    return np.mean(np.power(img_flaws, 2))
+    return np.mean(np.power(img_flaws, 2)).item()
 
 
 def eval_gradient_error(pred, target):
@@ -137,7 +137,7 @@ def eval_kl_div_loss(pred, target):
 
 
 def eval_ssim_error(pred, target, window_size=11):
-    return losses.ssim_loss(image_to_tensor(pred.astype(float), keepdim=False), image_to_tensor(target.astype(float), keepdim=False), window_size)
+    return losses.ssim_loss(image_to_tensor(pred.astype(float), keepdim=False), image_to_tensor(target.astype(float), keepdim=False), window_size).item()
 
 
 def eval_connectivity_error(pred, target, step=0.1, trimap=None):
