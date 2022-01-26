@@ -32,11 +32,11 @@ def color_dims(img):
     return img[..., :3] if len(img.shape) >= 3 and img.shape[2] >= 3 else img
 
 
-def concatenate(img, mask):
-    return np.concatenate((color_dims(img), mask_dims(mask)), axis=2)
+def concatenate(img, mask, dims=True):
+    return np.concatenate((color_dims(img), mask_dims(mask) if dims else mask), axis=2)
 
 
-def daub(img, mask=None, bg_color=(144, 238, 144)):
+def daub(img, mask=None, bg_color=(144, 238, 144), otype=np.uint8):
     img = color_dims(img)
     mask = normalize(mask_dims(mask) if mask is not None else FUNC_ALPHA[PNG_SHAPE](img))
 
@@ -46,7 +46,7 @@ def daub(img, mask=None, bg_color=(144, 238, 144)):
 
     result = img * mask + bg_img * (1 - mask)
 
-    return result
+    return result.astype(otype)
 
 
 def blend(img, mask, bg=None, norm=True, otype=np.uint8):
@@ -55,12 +55,15 @@ def blend(img, mask, bg=None, norm=True, otype=np.uint8):
     if norm:
         mask = normalize(mask)
 
-    output = img * mask if bg is None else img * mask + bg * (1 - mask)
+    if bg is None:
+        output = concatenate(img * mask, mask, dims=False)
+    else:
+        output = (img * mask + bg * (1 - mask))
 
     return output.astype(otype)
 
 
-def smooth(img, mask, ksize=(5, 5)):
+def smooth(img, mask, ksize=(5, 5), otype=np.uint8):
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, ksize=ksize)
     gt_mask = cv2.dilate(mask, kernel, iterations=1)
     blur = cv2.blur(img, ksize=ksize)
@@ -68,4 +71,4 @@ def smooth(img, mask, ksize=(5, 5)):
 
     output = blend(img, mask, bg=output)
 
-    return output
+    return output.astype(otype)
