@@ -17,11 +17,18 @@ def normalize(img, dtype=D_TYPE):
 
 
 def mask_dims(img):
-    return FUNC_ALPHA[len(img.shape)](img)
+    if len(img.shape) == 2:
+        axis = 2
+    elif len(img.shape) >= 3:
+        axis = img.shape[2]
+    else:
+        axis = 4
+
+    return FUNC_ALPHA[axis](img)
 
 
 def color_dims(img):
-    return img if len(img.shape) == 3 else img[..., :3]
+    return img[..., :3] if len(img.shape) >= 3 and img.shape[2] >= 3 else img
 
 
 def concatenate(img, mask):
