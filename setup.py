@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="imgz",
-    version="0.0.12",
+    version="0.0.13",
 
     author="cvdnn",
     author_email="cvvdnn@gmail.com",
