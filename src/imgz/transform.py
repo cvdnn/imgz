@@ -6,6 +6,7 @@ from . import D_TYPE
 PNG_SHAPE = 4
 
 FUNC_ALPHA = {
+    1: lambda x: x,
     2: lambda x: np.expand_dims(x, axis=2),
     3: lambda x: x[..., :1],
     4: lambda x: x[..., -2:-1]
@@ -22,7 +23,7 @@ def mask_dims(img):
     elif len(img.shape) >= 3:
         axis = img.shape[2]
     else:
-        axis = 4
+        axis = 1
 
     return FUNC_ALPHA[axis](img)
 
