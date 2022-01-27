@@ -37,14 +37,14 @@ def concatenate(img, mask, dims=True):
 
 
 def daub(img, mask=None, bg_color=(144, 238, 144), otype=np.uint8):
-    img = color_dims(img)
+    img_rgb = color_dims(img)
     mask = normalize(mask_dims(mask) if mask is not None else FUNC_ALPHA[PNG_SHAPE](img))
 
-    bg_img = np.zeros(img.shape, dtype=np.uint8)
+    bg_img = np.zeros(img_rgb.shape, dtype=np.uint8)
     for i in range(3):
         bg_img[..., i].fill(bg_color[i])
 
-    result = img * mask + bg_img * (1 - mask)
+    result = img_rgb * mask + bg_img * (1 - mask)
 
     return result.astype(otype)
 
