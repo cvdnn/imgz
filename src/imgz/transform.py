@@ -9,7 +9,7 @@ FUNC_ALPHA = {
     1: lambda x: x,
     2: lambda x: np.expand_dims(x, axis=2),
     3: lambda x: x[..., :1],
-    4: lambda x: x[..., -2:-1]
+    4: lambda x: x[..., -1:]
 }
 
 
