@@ -49,17 +49,15 @@ def daub(img, mask=None, bg_color=(144, 238, 144), otype=np.uint8):
     return result.astype(otype)
 
 
-def blend(img, gt, bg=None, norm=True, otype=np.uint8):
+def blend(img, mask, bg=None, otype=np.uint8):
     img = color_dims(img)
-    mask = mask_dims(gt)
-
-    if norm:
-        mask = normalize(mask)
+    mask = mask_dims(mask)
+    norm = normalize(mask)
 
     if bg is None:
-        output = concatenate(img * mask, gt, dims=False)
+        output = concatenate(img * norm, mask, dims=False)
     else:
-        output = (img * mask + color_dims(bg) * (1 - mask))
+        output = (img * norm + color_dims(bg) * (1 - norm))
 
     return output.astype(otype)
 
